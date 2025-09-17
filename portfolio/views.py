@@ -1,10 +1,24 @@
+import os
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.core.management import call_command
 from .models import About, Experience, Project, Blog, Certification, Academic
 
 
+def ensure_data_loaded():
+    """Ensure data is loaded for Vercel's in-memory database"""
+    if os.getenv('VERCEL') and not About.objects.exists():
+        try:
+            call_command('loaddata', 'portfolio/fixtures/initial_data.json')
+        except Exception as e:
+            print(f"Error loading data: {e}")
+
+
 def home(request):
+    # Ensure data is loaded for Vercel
+    ensure_data_loaded()
+    
     about = About.objects.first()
     roles_list = []
     if about and about.roles_open_for:
