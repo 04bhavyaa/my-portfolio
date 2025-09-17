@@ -2,6 +2,10 @@
   "version": 2,
   "builds": [
     {
+      "src": "static/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "portfolio_site/wsgi.py",
       "use": "@vercel/python",
       "config": {
@@ -9,7 +13,7 @@
       }
     }
   ],
-  "buildCommand": "bash build.sh",
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
   "routes": [
     {
       "src": "/static/(.*)",
