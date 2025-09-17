@@ -28,17 +28,19 @@ SECRET_KEY = config('SECRET_KEY', default="django-insecure-mc^#zn_38#ye)#06e!shq
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allow Vercel preview/production domains by default; override via env
-DEFAULT_ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".vercel.app",
-    "*.vercel.app",
-]
 ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default=','.join(DEFAULT_ALLOWED_HOSTS),
-    cast=lambda v: [s.strip() for s in v.split(',') if s.strip()],
+    'ALLOWED_HOSTS', 
+    default='localhost,127.0.0.1,.vercel.app,*.vercel.app',
+    cast=lambda v: [s.strip() for s in v.split(',') if s.strip()]
 )
+
+# Ensure Vercel domains are always allowed
+if not any('.vercel.app' in host for host in ALLOWED_HOSTS):
+    ALLOWED_HOSTS.extend(['.vercel.app', '*.vercel.app'])
+
+# For Vercel deployment, be more permissive with subdomains
+if any('vercel.app' in host for host in ALLOWED_HOSTS):
+    ALLOWED_HOSTS.append('*')
 
 
 # Application definition
