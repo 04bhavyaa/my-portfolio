@@ -168,6 +168,7 @@ themeToggle.addEventListener('click', () => {
   if (!buttons.length) return;
   const form = document.querySelector('#contact form.contact-form');
   const message = form ? form.querySelector('textarea[name="message"]') : null;
+  const emailInput = form ? form.querySelector('input[name="email"]') : null;
 
   function makeBody(kind) {
     if (kind === 'phone') {
@@ -186,6 +187,16 @@ themeToggle.addEventListener('click', () => {
       if (nameInput) nameInput.focus();
     });
   });
+
+  if (emailInput) {
+    emailInput.addEventListener('input', () => {
+      if (emailInput.validity.typeMismatch) {
+        emailInput.setCustomValidity('Please enter a valid email address');
+      } else {
+        emailInput.setCustomValidity('');
+      }
+    });
+  }
 })();
 
 
