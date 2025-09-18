@@ -223,6 +223,43 @@
                     {% if b %}<li>{{ b }}</li>{% endif %}
                   {% endfor %}
                 </ul>
+                {% if e.organization == "Antier Solutions" %}
+                <div class="document-links">
+                  <a href="/static/docs/antier_lor.pdf" target="_blank" class="doc-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14,2 14,8 20,8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10,9 9,9 8,9"></polyline>
+                    </svg>
+                    View LOR
+                  </a>
+                  <a href="/static/docs/antier_internship_letter.pdf" target="_blank" class="doc-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14,2 14,8 20,8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10,9 9,9 8,9"></polyline>
+                    </svg>
+                    View Internship Letter
+                  </a>
+                </div>
+                {% elif e.organization == "Pratham Education Foundation" %}
+                <div class="document-links">
+                  <a href="/static/docs/pratham_internship_letter.pdf" target="_blank" class="doc-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14,2 14,8 20,8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10,9 9,9 8,9"></polyline>
+                    </svg>
+                    View Internship Letter
+                  </a>
+                </div>
+                {% endif %}
               </div>
             </div>
           {% empty %}
@@ -230,38 +267,106 @@
           {% endfor %}
         </div>
 
-        <h3>Achievements & Awards</h3>
-        <div class="grid">
-          {% for e in achievements %}
-            <div class="card">
-              <h4>{{ e.role }}</h4>
-              <p class="muted">{{ e.start_date }}</p>
-              <ul>
-                {% for b in e.bullets.splitlines %}
-                  {% if b %}<li>{{ b }}</li>{% endif %}
-                {% endfor %}
-              </ul>
+        <h3>Hackathons & Competitions</h3>
+        <div class="achievements-list">
+          <div class="achievement-item">
+            <div class="achievement-header">
+              <h4>Technovate'25 – 3rd Place</h4>
+              <span class="achievement-badge">3rd Place</span>
             </div>
-          {% empty %}
-            <p>No achievements yet.</p>
-          {% endfor %}
+            <p class="achievement-org">GDSC, UIET Chandigarh</p>
+            <p class="achievement-desc">Built a GenAI e-learning platform for at-risk students, chosen from 100+ teams.</p>
+          </div>
+          
+          <div class="achievement-item">
+            <div class="achievement-header">
+              <h4>NMIMS Research Symposium – Top 30%</h4>
+              <span class="achievement-badge">Top 30%</span>
+            </div>
+            <p class="achievement-org">NMIMS University</p>
+            <p class="achievement-desc">Presented a Student Performance Predictor using predictive modeling.</p>
+          </div>
+          
+          <div class="achievement-item">
+            <div class="achievement-header">
+              <h4>ADVITIYA'24, IIT Ropar – 3rd Place</h4>
+              <span class="achievement-badge">3rd Place</span>
+            </div>
+            <p class="achievement-org">IIT Ropar</p>
+            <p class="achievement-desc">Delivered rapid insights from a research paper with only 10 minutes of prep.</p>
+          </div>
+          
+          <div class="achievement-item">
+            <div class="achievement-header">
+              <h4>Startup Entrepreneur Series – Finalist</h4>
+              <span class="achievement-badge">Finalist</span>
+            </div>
+            <p class="achievement-org">Entrepreneurship Competition</p>
+            <p class="achievement-desc">Recognized for innovation and business strategy.</p>
+          </div>
         </div>
 
         <h3>Leadership & Workshops</h3>
-        <div class="grid">
-          {% for e in leadership %}
-            <div class="card">
-              <h4>{{ e.role }}</h4>
-              <p class="muted">{{ e.organization }}</p>
-              <ul>
-                {% for b in e.bullets.splitlines %}
-                  {% if b %}<li>{{ b }}</li>{% endif %}
-                {% endfor %}
-              </ul>
+        <div class="leadership-list">
+          <div class="leadership-item">
+            <div class="leadership-header">
+              <h4>President, MATRIX Tech Club</h4>
+              <span class="leadership-badge">Leadership</span>
             </div>
-          {% empty %}
-            <p>No leadership/workshops yet.</p>
-          {% endfor %}
+            <p class="leadership-desc">Directed 30+ technical events, hackathons, and guest lectures.</p>
+          </div>
+          
+          <div class="leadership-item">
+            <div class="leadership-header">
+              <h4>ACM Student Chapter</h4>
+              <span class="leadership-badge">Member</span>
+            </div>
+            <p class="leadership-desc">Active member and college-level coding competitor.</p>
+          </div>
+          
+          <div class="leadership-item">
+            <div class="leadership-header">
+              <h4>Placement Cell Member</h4>
+              <span class="leadership-badge">Support</span>
+            </div>
+            <p class="leadership-desc">Supporting recruitment initiatives.</p>
+          </div>
+          
+          <div class="leadership-item">
+            <div class="leadership-header">
+              <h4>Infosys Springboard Mentee</h4>
+              <span class="leadership-badge">Program</span>
+            </div>
+            <p class="leadership-desc">Completed 12-week leadership program with on-site immersion.</p>
+          </div>
+          
+          <div class="leadership-item">
+            <div class="leadership-header">
+              <h4>Speaker, NMIMS University</h4>
+              <span class="leadership-badge">Speaker</span>
+            </div>
+            <p class="leadership-desc">Led a Data Analytics workshop for 60+ participants.</p>
+          </div>
+          
+          <div class="leadership-item">
+            <div class="leadership-header">
+              <h4>Volunteer, Aashray Foundation</h4>
+              <span class="leadership-badge">Volunteer</span>
+            </div>
+            <p class="leadership-desc">Organized educational workshops for 50+ students and managed volunteer operations.</p>
+            <div class="document-links">
+              <a href="/static/docs/BhavyaJha_CV.pdf" target="_blank" class="doc-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14,2 14,8 20,8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10,9 9,9 8,9"></polyline>
+                </svg>
+                View LOR
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -349,6 +454,22 @@
       © {{ about.full_name|default:"Portfolio" }} — {{ now|date:"Y" }}
     </div>
   </footer>
+
+  <!-- Fixed Theme Toggle Button -->
+  <button class="theme-toggle-fixed" id="theme-toggle" aria-label="Toggle theme">
+    <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <span id="theme-text">Light</span>
+  </button>
 
   <script src="/static/js/main.js"></script>
 </body>
