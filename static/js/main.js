@@ -106,4 +106,86 @@ themeToggle.addEventListener('click', () => {
   updateThemeUI(newTheme);
 });
 
+// Projects: Filter by role and sort by date
+(() => {
+  const grid = document.getElementById('projects-grid');
+  if (!grid) return;
+  const cards = Array.from(grid.querySelectorAll('.project-card'));
+  const roleChips = document.querySelectorAll('#role-filter .chip');
+  const sortSelect = document.getElementById('project-sort');
+
+  let activeRole = 'all';
+  let sortOrder = sortSelect ? sortSelect.value : 'desc';
+
+  function parseYear(str) {
+    if (!str) return 0;
+    const m = String(str).match(/(20\d{2}|19\d{2})/);
+    return m ? parseInt(m[1], 10) : 0;
+  }
+
+  function apply() {
+    // Filter
+    cards.forEach((card) => {
+      const role = (card.getAttribute('data-role') || '').toLowerCase();
+      const show = activeRole === 'all' || role === activeRole;
+      card.style.display = show ? '' : 'none';
+    });
+    // Sort
+    const visible = cards.filter((c) => c.style.display !== 'none');
+    visible.sort((a, b) => {
+      const ay = parseYear(a.getAttribute('data-date'));
+      const by = parseYear(b.getAttribute('data-date'));
+      return sortOrder === 'asc' ? ay - by : by - ay;
+    });
+    visible.forEach((el) => grid.appendChild(el));
+  }
+
+  roleChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      roleChips.forEach((c) => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeRole = chip.getAttribute('data-role');
+      apply();
+    });
+  });
+
+  if (sortSelect) {
+    sortSelect.addEventListener('change', () => {
+      sortOrder = sortSelect.value;
+      apply();
+    });
+  }
+
+  // Init
+  const allChip = document.querySelector('#role-filter .chip[data-role="all"]');
+  if (allChip) allChip.classList.add('active');
+  apply();
+})();
+
+// Request Phone / CV: autofill contact form and scroll
+(() => {
+  const buttons = document.querySelectorAll('.request-btn');
+  if (!buttons.length) return;
+  const form = document.querySelector('#contact form.contact-form');
+  const message = form ? form.querySelector('textarea[name="message"]') : null;
+
+  function makeBody(kind) {
+    if (kind === 'phone') {
+      return 'Hello, I would like to request your phone number to discuss an opportunity.\n\nReason: ';
+    }
+    return 'Hello, I would like to request your latest CV.\n\nReason: ';
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (!form || !message) return;
+      const kind = btn.getAttribute('data-request');
+      message.value = makeBody(kind);
+      form.scrollIntoView({ behavior: 'smooth' });
+      const nameInput = form.querySelector('input[name="name"]');
+      if (nameInput) nameInput.focus();
+    });
+  });
+})();
+
 

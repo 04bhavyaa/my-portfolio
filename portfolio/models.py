@@ -39,6 +39,7 @@ class Experience(models.Model):
     start_date = models.CharField(max_length=60, blank=True)
     end_date = models.CharField(max_length=60, blank=True)
     bullets = models.TextField(blank=True, help_text="One per line")
+    tech_stack = models.CharField(max_length=512, blank=True, help_text="Comma separated technologies used")
 
     class Meta:
         ordering = ["-start_date"]
@@ -54,6 +55,11 @@ class Project(models.Model):
     github_url = models.URLField(blank=True)
     featured = models.BooleanField(default=False)
     date_range = models.CharField(max_length=120, blank=True)
+    role = models.CharField(
+        max_length=60,
+        blank=True,
+        help_text="Primary role this project maps to (e.g., backend, genai, mlds, ux)",
+    )
 
     def __str__(self) -> str:
         return self.title

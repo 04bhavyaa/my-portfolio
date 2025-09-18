@@ -10,55 +10,54 @@ def ensure_data_loaded():
     """Ensure data is loaded for Vercel's in-memory database"""
     if os.getenv('VERCEL'):
         try:
-            # First run migrations to create tables
             call_command('migrate', '--run-syncdb')
-            # Then load data if no data exists
             if not About.objects.exists():
                 call_command('loaddata', 'portfolio/fixtures/initial_data.json')
         except Exception as e:
             print(f"Error setting up database: {e}")
-            # If there's an error, try to create a minimal About object
             try:
                 About.objects.get_or_create(
                     full_name="Bhavya Jha",
                     title="Data Science & Machine Learning Enthusiast",
                     email="bhavyajha1404@gmail.com",
                     summary="Passionate about creating innovative solutions and building meaningful projects.",
-                    roles_open_for="Data Scientist, Machine Learning Engineer, Full Stack Developer"
+                    roles_open_for="Data Scientist, Machine Learning Engineer, Full Stack Developer",
                 )
             except Exception as create_error:
                 print(f"Error creating fallback data: {create_error}")
 
 
 def home(request):
-    # Ensure data is loaded for Vercel
     ensure_data_loaded()
-    
-    # Safely get data with fallbacks
+
     try:
         about = About.objects.first()
         roles_list = []
         if about and about.roles_open_for:
             roles_list = [r.strip() for r in about.roles_open_for.split(",") if r.strip()]
+
         internships = Experience.objects.filter(experience_type="internship")
         achievements = Experience.objects.filter(experience_type="achievement")
         leadership = Experience.objects.filter(experience_type="leadership")
         academics = Academic.objects.all()
+
         projects = Project.objects.all()
+        # Pre-split tech_stack into a list for the template
+        for p in projects:
+            p.tech_stack_list = [t.strip() for t in p.tech_stack.split(",") if t.strip()]
+        # Pre-split internship tech_stack into a list for tags
+        for e in internships:
+            e.tech_stack_list = [t.strip() for t in (e.tech_stack or "").split(",") if t.strip()]
+
         blogs = Blog.objects.all()
         certifications = Certification.objects.all()
+
     except Exception as e:
         print(f"Error querying database: {e}")
-        # Fallback data
         about = None
         roles_list = ["Data Scientist", "Machine Learning Engineer", "Full Stack Developer"]
-        internships = []
-        achievements = []
-        leadership = []
-        academics = []
-        projects = []
-        blogs = []
-        certifications = []
+        internships = achievements = leadership = academics = []
+        projects = blogs = certifications = []
 
     context = {
         "about": about,
@@ -82,7 +81,7 @@ def contact_submit(request):
         message = request.POST.get("message", "")
         composed = f"From: {name} <{email}>\n\n{message}"
         send_mail(
-            subject=f"{subject_line}",
+            subject=subject_line,
             message=composed,
             from_email=None,
             recipient_list=["bhavyajha1404@gmail.com"],
@@ -91,5 +90,3 @@ def contact_submit(request):
         messages.success(request, "Thanks! Your message has been sent.")
         return redirect("home")
     return redirect("home")
-
-# Create your views here.
